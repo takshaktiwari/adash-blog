@@ -9,14 +9,9 @@ class AblogServiceProvider extends ServiceProvider
 {
 	public function boot()
 	{
-	    if (!$this->app->runningInConsole()) {
-	        return;
-	    }
-
 	    $this->commands([ InstallCommand::class ]);
-	    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 	    $this->loadViewsFrom(__DIR__.'/../resources/views', 'ablog');
-
+	    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 	    $this->publishFiles();
 	}
 

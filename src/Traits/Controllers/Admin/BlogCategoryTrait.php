@@ -3,6 +3,7 @@
 namespace Takshak\Ablog\Traits\Controllers\Admin;
 
 use Takshak\Ablog\Actions\BlogCategoryAction;
+use Illuminate\Support\Facades\View;
 use App\Models\Blog\BlogCategory;
 use Illuminate\Http\Request;
 
@@ -30,14 +31,22 @@ trait BlogCategoryTrait {
 	    if ($request->get('filter')) {
 	        $f_categories = BlogCategory::select('id', 'name', 'slug', 'blog_category_id')->with('parentCategory:id,name,slug,blog_category_id')->orderBy('name')->get();
 	    }
-	    return view('admin.blog.categories.index', compact('categories', 'f_categories'));
+
+	    return View::first(
+	    	['admin.blog.categories.index', 'ablog::admin.blog.categories.index'], 
+	    	compact('categories', 'f_categories')
+	    );
 	}
 
 	public function create()
 	{
 		$this->authorize('blog_categories_create');
 	    $categories = BlogCategory::orderBy('name')->get();
-	    return view('admin.blog.categories.create', compact('categories'));
+
+	    return View::first(
+	    	['admin.blog.categories.create', 'ablog::admin.blog.categories.create'], 
+	    	compact('categories')
+	    );
 	}
 
 	public function store(Request $request, BlogCategoryAction $action)
@@ -45,7 +54,7 @@ trait BlogCategoryTrait {
 		$this->authorize('blog_categories_create');
 	    $request->validate([
 	        'name'          =>  'required',
-	        'blog_category_id'  =>  'required|numeric',
+	        'blog_category_id'  =>  'nullable|numeric',
 	        'status'        =>  'nullable|boolean',
 	        'featured'      =>  'nullable|boolean',
 	        'meta_title'    =>  'nullable|max:255',
@@ -61,7 +70,10 @@ trait BlogCategoryTrait {
 	{
 		$this->authorize('blog_categories_update');
 	    $categories = BlogCategory::orderBy('name')->get();
-	    return view('admin.blog.categories.edit', compact('categories', 'category'));
+	    return View::first(
+	    	['admin.blog.categories.edit', 'ablog::admin.blog.categories.edit'], 
+	    	compact('categories', 'category')
+	    );
 	}
 
 	public function update(Request $request, BlogCategory $category, BlogCategoryAction $action)
@@ -69,7 +81,7 @@ trait BlogCategoryTrait {
 		$this->authorize('blog_categories_update');
 	    $request->validate([
 	        'name'          =>  'required',
-	        'blog_category_id'  =>  'required|numeric',
+	        'blog_category_id'  =>  'nullable|numeric',
 	        'status'        =>  'nullable|boolean',
 	        'featured'      =>  'nullable|boolean',
 	        'meta_title'    =>  'nullable|max:255',

@@ -3,6 +3,7 @@
 namespace Takshak\Ablog\Traits\Controllers\Admin;
 
 use Takshak\Ablog\Actions\BlogPostAction;
+use Illuminate\Support\Facades\View;
 use App\Models\Blog\BlogCategory;
 use App\Models\Blog\BlogPost;
 use Illuminate\Http\Request;
@@ -35,7 +36,9 @@ trait BlogPostTrait {
 	        ->with('parentCategory:id,name,slug,blog_category_id')
 	        ->orderBy('name')->get();
 	    }
-	    return view('admin.blog.posts.index', compact('posts', 'categories'));
+	    return View::first([
+	    	'admin.blog.posts.index', 'ablog::admin.blog.posts.index'
+	    ], compact('posts', 'categories'));
 	}
 
 	public function create()
@@ -44,7 +47,9 @@ trait BlogPostTrait {
 	    $categories = BlogCategory::select('id', 'name', 'slug', 'blog_category_id')
 	    ->with('parentCategory:id,name,slug,blog_category_id')
 	    ->orderBy('name')->get();
-	    return view('admin.blog.posts.create', compact('categories'));
+	    return View::first([
+	    	'admin.blog.posts.create', 'ablog::admin.blog.posts.create'
+	    ], compact('categories'));
 	}
 
 	public function store(Request $request, BlogPostAction $action)
@@ -67,7 +72,9 @@ trait BlogPostTrait {
 	public function show(BlogPost $post)
 	{
 		$this->authorize('blog_posts_show');
-	    return view('admin.blog.posts.show', compact('post'));
+	    return View::first([
+	    	'admin.blog.posts.show', 'adash::admin.blog.posts.show'
+	    ], compact('post'));
 	}
 
 	public function edit(BlogPost $post)
@@ -76,7 +83,9 @@ trait BlogPostTrait {
 	    $categories = BlogCategory::select('id', 'name', 'slug', 'blog_category_id')
 	    ->with('parentCategory:id,name,slug,blog_category_id')
 	    ->orderBy('name')->get();
-	    return view('admin.blog.posts.edit', compact('post', 'categories'));
+	    return View::first([
+	    	'admin.blog.posts.edit', 'adash::admin.blog.posts.edit'
+	    ], compact('post', 'categories'));
 	}
 
 	public function update(Request $request, BlogPost $post, BlogPostAction $action)

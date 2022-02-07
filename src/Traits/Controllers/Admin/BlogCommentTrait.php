@@ -2,6 +2,7 @@
 
 namespace Takshak\Ablog\Traits\Controllers\Admin;
 
+use Illuminate\Support\Facades\View;
 use App\Models\Blog\BlogComment;
 use Illuminate\Http\Request;
 
@@ -35,19 +36,26 @@ trait BlogCommentTrait {
 	    }
 	    $comments = $query->latest()->paginate(50);
 
-	    return view('admin.blog.comments.index', compact('comments'));
+	    return View::first(
+	    	['admin.blog.comments.index', 'ablog::admin.blog.comments.index'], 
+	    	compact('comments')
+	    );
 	}
 
 	public function show(BlogComment $comment)
 	{
 		$this->authorize('blog_comments_show');
-	    return view('admin.blog.comments.show', compact('comment'));
+	    return View::first([
+	    	'admin.blog.comments.show', 'ablog::admin.blog.comments.show'
+	    ], compact('comment'));
 	}
 
 	public function edit(BlogComment $comment)
 	{
 		$this->authorize('blog_comments_update');
-	    return view('admin.blog.comments.edit', compact('comment'));
+	    return View::first([
+	    	'admin.blog.comments.edit', 'ablog::admin.blog.comments.edit'
+	    ], compact('comment'));
 	}
 
 	public function update(Request $request, BlogComment $comment)
