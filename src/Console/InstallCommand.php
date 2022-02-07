@@ -114,5 +114,6 @@ class InstallCommand extends Command
             $this->filesystem->put($targetFilePath, $lines);
         }
         
+        $this->call('migrate');
     }
 }
