@@ -12,11 +12,9 @@ class AblogServiceProvider extends ServiceProvider
 	    $this->commands([ InstallCommand::class ]);
 	    $this->loadViewsFrom(__DIR__.'/../resources/views', 'ablog');
 	    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-	    $this->publishFiles();
+    	$this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views'),
+        ]);
 	}
 
-	public function publishFiles()
-	{
-		
-	}
 }

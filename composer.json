@@ -25,5 +25,10 @@
                 "Takshak\\Ablog\\AblogServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan ablog:install"
+        ]
     }
 }
