@@ -1,0 +1,29 @@
+{
+    "name": "takshak/ablog",
+    "keywords": ["laravel", "adash", "admin", "blog"],
+    "description": "Blog for laravel",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Takshak Tiwari",
+            "email": "takshaktiwari@gmail.com"
+        }
+    ],
+    "require": {
+        "takshak/adash": "*"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Takshak\\Ablog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Takshak\\Ablog\\AblogServiceProvider"
+            ]
+        }
+    }
+}
