@@ -154,7 +154,7 @@ class InstallCommand extends Command
             '--class' => 'BlogCategorySeeder'
         ]);
         $this->call('db:seed', [
-            '--class' => 'BlogCategorySeeder'
+            '--class' => 'BlogPostSeeder'
         ]);
     }
 }
