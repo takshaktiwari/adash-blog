@@ -26,6 +26,8 @@
                         {{ $post->status ? 'Active' : 'In-Active' }}
                         <span class="px-1">|</span>
                         {{ $post->featured ? 'Featured' : 'Not-Featured' }}
+                        <span class="px-1">|</span>
+                        {{ $post->commentable ? 'Commentable' : 'Non Commentable' }}
                     </div>
                 </div>
             </div>

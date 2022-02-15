@@ -7,7 +7,7 @@
             ['text' => 'Create'],
 		]"
         :actions="[
-            ['text' => 'Filter', 'icon' => 'fas fa-sliders-h', 'url' => route('admin.blog.posts.index', ['filter' => 1]), 'permission' => 'blog_posts_access', 'class' => 'btn-success btn-loader',],
+            ['text' => 'All Posts', 'icon' => 'fas fa-list', 'url' => route('admin.blog.posts.index'), 'permission' => 'blog_posts_access', 'class' => 'btn-success btn-loader',],
             ['text' => 'New Post', 'icon' => 'fas fa-plus', 'url' => route('admin.blog.posts.create'), 'permission' => 'blog_posts_create', 'class' => 'btn-dark btn-loader'],
         ]" />
 
@@ -19,29 +19,19 @@
                 <input type="text" name="title" class="form-control" required>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-sm-8">
                     <div class="form-group">
                         <label for="">Image <span class="text-danger">*</span></label>
                         <input type="file" name="thumbnail" class="form-control" required>
                     </div>
                 </div>
-                <div class="col-md-4 col-6">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <label for="">Status <span class="text-danger">*</span></label>
                         <select name="status" class="form-control" required>
                             <option value="">-- Select --</option>
-                            <option value="1" {{ (old('status') == '1') ? 'selected' : '' }} >Yes</option>
-                            <option value="0" {{ (old('status') == '0') ? 'selected' : '' }} >No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4 col-6">
-                    <div class="form-group">
-                        <label for="">Featured <span class="text-danger">*</span></label>
-                        <select name="featured" class="form-control" required>
-                            <option value="">-- Select --</option>
-                            <option value="1" {{ (old('featured') == '1') ? 'selected' : '' }} >Yes</option>
-                            <option value="0" {{ (old('featured') == '0') ? 'selected' : '' }} >No</option>
+                            <option value="1" {{ (old('status') == '1') ? 'selected' : '' }} >Active</option>
+                            <option value="0" {{ (old('status') == '0') ? 'selected' : '' }} >In-Active</option>
                         </select>
                     </div>
                 </div>
@@ -78,6 +68,17 @@
                 <label for="">Meta Description</label>
                 <textarea name="meta_description" rows="2" class="form-control">{{ old('meta_description') }}</textarea>
             </div>
+
+            <div class="form-check mb-2">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="featured" value="1" {{ old('featured') ? 'checked' : '' }}> Mark as featured
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="commentable" value="1" {{ old('commentable') ? 'checked' : '' }}> Allow Comments on post
+                </label>
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-dark btn-loader">
@@ -87,6 +88,7 @@
     </form>
     
     <x-slot name="script">
+        <script src="{{ asset('assets/admin/js/tinymce.min.js') }}" referrerpolicy="origin"></script>
         <script>
             tinymce.init({
                 selector: '.text-editor',

@@ -25,16 +25,16 @@
                         <td>{{ $comment->email }}</td>
                     </tr>
                     @if($comment->user)
-                    <tr>
-                        <td class="text-nowrap"><b>Logged-in User:</b></td>
-                        <td>
-                            <a href="{{ route('admin.users.show', [$comment->user]) }}">
-                                {{ $comment->user->name }}
-                            </a>
-                            <span class="px-1">|</span>
-                            {{ $comment->user->email }}
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="text-nowrap"><b>User:</b></td>
+                            <td>
+                                <a href="{{ route('admin.users.show', [$comment->user]) }}">
+                                    {{ $comment->user->name }}
+                                </a>
+                                <span class="px-1">|</span>
+                                {{ $comment->user->email }}
+                            </td>
+                        </tr>
                     @endif
                     <tr>
                         <td><b>Post:</b></td>

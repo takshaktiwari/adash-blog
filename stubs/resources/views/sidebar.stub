@@ -25,7 +25,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         @can('blog_posts_access')
-                        <li><a href="{{ route('admin.blog.posts.create') }}">New Post</a></li>
+                        <li><a href="{{ route('admin.blog.posts.create') }}">Create Post</a></li>
                         @endcan
 
                         @can('blog_posts_create')

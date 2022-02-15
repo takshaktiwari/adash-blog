@@ -12,12 +12,13 @@ class BlogPostAction
 		$post->title    = $request->post('title');
 		$post->slug     = Str::of($post->title.'-'.rand(1, 99))->slug('-');
 		$post->status   = $request->post('status');
-		$post->featured = $request->post('featured');
+		$post->featured = $request->post('featured') ? true : false;
 		$post->commentable  = $request->post('commentable');
 		$post->content      = $request->post('content');
 		$post->m_title      = $request->post('m_title');
 		$post->m_keywords   = $request->post('m_keywords');
 		$post->m_description    = $request->post('m_description');
+		$post->commentable    	= $request->post('commentable') ? true : false;
 		$post->user_id 			= auth()->id();
 
 		if ($request->file('thumbnail')){

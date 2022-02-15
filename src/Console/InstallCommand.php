@@ -38,6 +38,12 @@ class InstallCommand extends Command
                 $this->stubsPath.'/Models/Blog/BlogPost.stub',
                 app_path('Models/Blog/BlogPost.php')
             ],
+
+            // Controllers
+            [
+                $this->stubsPath.'/Http/Controllers/Blog/PostController.stub',
+                app_path('Http/Controllers/Blog/PostController.php')
+            ],
             [
                 $this->stubsPath.'/Http/Controllers/Admin/BlogCategoryController.stub',
                 app_path('Http/Controllers/Admin/Blog/BlogCategoryController.php')
@@ -50,10 +56,18 @@ class InstallCommand extends Command
                 $this->stubsPath.'/Http/Controllers/Admin/BlogPostController.stub',
                 app_path('Http/Controllers/Admin/Blog/BlogPostController.php')
             ],
+
+            // seeders
             [
                 $this->stubsPath.'/database/seeders/BlogCategorySeeder.stub',
                 database_path('seeders/BlogCategorySeeder.php')
             ],
+            [
+                $this->stubsPath.'/database/seeders/BlogPostSeeder.stub',
+                database_path('seeders/BlogPostSeeder.php')
+            ],
+
+            // factories
             [
                 $this->stubsPath.'/database/factories/Blog/BlogCategoryFactory.stub',
                 database_path('factories/Blog/BlogCategoryFactory.php')
@@ -65,10 +79,6 @@ class InstallCommand extends Command
             [
                 $this->stubsPath.'/database/factories/Blog/BlogCommentFactory.stub',
                 database_path('factories/Blog/BlogCommentFactory.php')
-            ],
-            [
-                $this->stubsPath.'/database/seeders/BlogPostSeeder.stub',
-                database_path('seeders/BlogPostSeeder.php')
             ],
         ];
 

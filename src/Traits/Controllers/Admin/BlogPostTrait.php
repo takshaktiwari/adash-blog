@@ -58,10 +58,11 @@ trait BlogPostTrait {
 	    $request->validate([
 	        'title'         =>  'required',
 	        'status'        =>  'nullable|boolean',
-	        'featured'      =>  'nullable|boolean',
 	        'category_ids'  =>  'required|array|min:1',
 	        'content'       =>  'required',
-	        'm_title'    =>  'nullable|max:255'
+	        'm_title'    	=>  'nullable|max:255',
+	        'featured'      =>  'sometimes|boolean',
+	        'commentable'	=>	'sometimes|boolean'
 	    ]);
 
 	    $post = new BlogPost;
@@ -73,7 +74,7 @@ trait BlogPostTrait {
 	{
 		$this->authorize('blog_posts_show');
 	    return View::first([
-	    	'admin.blog.posts.show', 'adash::admin.blog.posts.show'
+	    	'admin.blog.posts.show', 'ablog::admin.blog.posts.show'
 	    ], compact('post'));
 	}
 
@@ -84,7 +85,7 @@ trait BlogPostTrait {
 	    ->with('parentCategory:id,name,slug,blog_category_id')
 	    ->orderBy('name')->get();
 	    return View::first([
-	    	'admin.blog.posts.edit', 'adash::admin.blog.posts.edit'
+	    	'admin.blog.posts.edit', 'ablog::admin.blog.posts.edit'
 	    ], compact('post', 'categories'));
 	}
 
@@ -94,10 +95,11 @@ trait BlogPostTrait {
 	    $request->validate([
 	        'title'         =>  'required',
 	        'status'        =>  'nullable|boolean',
-	        'featured'      =>  'nullable|boolean',
 	        'category_ids'  =>  'required|array|min:1',
 	        'content'       =>  'required',
-	        'm_title'    =>  'nullable|max:255'
+	        'm_title'    	=>  'nullable|max:255',
+	        'featured'      =>  'sometimes|boolean',
+	        'commentable'	=>	'sometimes|boolean'
 	    ]);
 	    $post = $action->save($request, $post);
 	    return redirect()->route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! Post is successfully updated.');

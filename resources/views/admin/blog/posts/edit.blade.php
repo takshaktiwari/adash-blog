@@ -20,7 +20,7 @@
                 <input type="text" name="title" class="form-control" required value="{{ $post->title }}">
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-8">
                     <div class="d-flex mb-2">
                         <div class="mr-3">
                             <img src="{{ $post->image_sm() }}" alt="image" width="100" class="rounded">
@@ -31,23 +31,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <label for="">Status <span class="text-danger">*</span></label>
                         <select name="status" class="form-control" required>
                             <option value="">-- Select --</option>
                             <option value="1" {{ ($post->status == '1') ? 'selected' : '' }} >Yes</option>
                             <option value="0" {{ ($post->status == '0') ? 'selected' : '' }} >No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="form-group">
-                        <label for="">Featured <span class="text-danger">*</span></label>
-                        <select name="featured" class="form-control" required>
-                            <option value="">-- Select --</option>
-                            <option value="1" {{ ($post->featured == '1') ? 'selected' : '' }} >Yes</option>
-                            <option value="0" {{ ($post->featured == '0') ? 'selected' : '' }} >No</option>
                         </select>
                     </div>
                 </div>
@@ -84,6 +74,17 @@
                 <label for="">Meta Description</label>
                 <textarea name="m_description" rows="2" class="form-control">{{ $post->m_description }}</textarea>
             </div>
+
+            <div class="form-check mb-2">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="featured" value="1" {{ $post->featured ? 'checked' : '' }}> Mark as featured
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="commentable" value="1" {{ $post->commentable ? 'checked' : '' }}> Allow Comments on post
+                </label>
+            </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-dark btn-loader">
@@ -93,6 +94,7 @@
     </form>
     
     <x-slot name="script">
+        <script src="{{ asset('assets/admin/js/tinymce.min.js') }}" referrerpolicy="origin"></script>
         <script>
             tinymce.init({
                 selector: '.text-editor',

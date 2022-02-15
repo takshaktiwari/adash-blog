@@ -1,0 +1,6 @@
+Route::prefix('blog')->name('blog.')->group(function(){
+	Route::prefix('posts')->name('posts.')->controller(PostController::class)->group(function(){
+		Route::get('/', 'index')->name('index');
+		Route::get('show/{post:slug}', 'show')->name('show');
+	});
+});
