@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class InstallCommand extends Command
 {
-	protected $signature = 'ablog:install {install=default}';
+	protected $signature = 'adash:blog:install {install=default}';
     protected $stubsPath;
     protected $filesystem;
     protected $str;
@@ -55,8 +55,16 @@ class InstallCommand extends Command
                 database_path('seeders/BlogCategorySeeder.php')
             ],
             [
-                $this->stubsPath.'/database/seeders/BlogCommentSeeder.stub',
-                database_path('seeders/BlogCommentSeeder.php')
+                $this->stubsPath.'/database/factories/Blog/BlogCategoryFactory.stub',
+                database_path('factories/Blog/BlogCategoryFactory.php')
+            ],
+            [
+                $this->stubsPath.'/database/factories/Blog/BlogPostFactory.stub',
+                database_path('factories/Blog/BlogPostFactory.php')
+            ],
+            [
+                $this->stubsPath.'/database/factories/Blog/BlogCommentFactory.stub',
+                database_path('factories/Blog/BlogCommentFactory.php')
             ],
             [
                 $this->stubsPath.'/database/seeders/BlogPostSeeder.stub',
@@ -107,8 +115,7 @@ class InstallCommand extends Command
             $lines = Str::of($targetFile)->beforeLast(';');
             $lines .= ";\n";
             $lines .= "\t\t".'$this->call(BlogCategorySeeder::class);'."\n";
-            $lines .= "\t\t".'$this->call(BlogCommentSeeder::class);'."\n";
-            $lines .= "\t\t".'$this->call(BlogCategorySeeder::class);'."\n";
+            $lines .= "\t\t".'$this->call(BlogPostSeeder::class);'."\n";
             $lines .= Str::of($targetFile)->afterLast(';');
 
             $this->filesystem->put($targetFilePath, $lines);
