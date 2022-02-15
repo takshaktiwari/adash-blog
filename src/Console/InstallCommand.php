@@ -105,6 +105,21 @@ class InstallCommand extends Command
             $this->filesystem->put(base_path('routes/admin.php'), $lines);
         }
 
+        // add routes routes/web.php
+        $stub = $this->filesystem->get($this->stubsPath.'/routes/web.stub');
+        $targetFile = $this->filesystem->get(base_path('routes/web.php'));
+        if (!$this->str->of($targetFile)->contains("Route::prefix('blog')")) {
+
+            $lines = "<?php\n\n";
+            $lines .= "use App\Http\Controllers\Blog\PostController;\n";
+            $lines .= Str::of($targetFile)->after("<?php")->before('require');
+            $lines .= $stub."\n\n";
+            $lines .= "require";
+            $lines .= Str::of($targetFile)->after('require');
+
+            $this->filesystem->put(base_path('routes/web.php'), $lines);
+        }
+
         // add routes to admin sidebar component
         $stub = $this->filesystem->get($this->stubsPath.'/resources/views/sidebar.stub');
         $targetFilePath = resource_path('views/components/admin/sidebar.blade.php');

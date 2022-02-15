@@ -26,4 +26,9 @@ class BlogPost extends Model
     {
         return $this->hasMany(BlogComment::class);
     }
+
+    public function excerpt($length=200)
+    {
+        return substr(strip_tags($this->content), 0, $length);
+    }
 }

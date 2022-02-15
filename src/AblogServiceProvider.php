@@ -11,6 +11,11 @@ class AblogServiceProvider extends ServiceProvider
 	{
 	    $this->commands([ InstallCommand::class ]);
 	    $this->loadViewsFrom(__DIR__.'/../resources/views', 'ablog');
+	    $this->loadViewComponentsAs('ablog', [
+	        PostCard::class,
+	        PostGallery::class,
+	    ]);
+
 	    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     	$this->publishes([
             __DIR__.'/../resources/views' => resource_path('views'),
