@@ -25,7 +25,6 @@ class BlogCategoryFactory extends Factory
         $image_lg =   'blog_categories/'.$fileName;
 
         Picsum::dimensions(800, 500)
-        ->basePath(Storage::disk('public')->path('/'))
         ->save(Storage::disk('public')->path($image_lg))
         ->save(Storage::disk('public')->path($image_md), 400)
         ->save(Storage::disk('public')->path($image_sm), 200)

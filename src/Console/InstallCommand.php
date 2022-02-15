@@ -122,5 +122,14 @@ class InstallCommand extends Command
         }
         
         $this->call('migrate');
+
+        $this->newLine();
+        $this->line('Seeding blog posts');
+        $this->call('db:seed', [
+            '--class' => 'BlogCategorySeeder'
+        ]);
+        $this->call('db:seed', [
+            '--class' => 'BlogCategorySeeder'
+        ]);
     }
 }
