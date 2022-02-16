@@ -7,6 +7,7 @@ use App\Models\Blog\BlogComment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Takshak\Adash\Traits\Models\CommonModelTrait;
 
 class BlogPost extends Model
@@ -27,8 +28,8 @@ class BlogPost extends Model
         return $this->hasMany(BlogComment::class);
     }
 
-    public function excerpt($length=200)
+    public function excerpt($length=40)
     {
-        return substr(strip_tags($this->content), 0, $length);
+        return Str::words(strip_tags($this->content), $length, ' ...');
     }
 }

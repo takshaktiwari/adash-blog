@@ -1,0 +1,12 @@
+	/*
+	| Blog
+	|---------------------
+	| For configuration of package: `takshak/adash-blog`.
+	*/
+	'blog'	=>	[
+		'install'	=>	[
+			// Enable / Disable `adash:blog:install` command
+			'command'	=>	env('APP_DEBUG', true),
+		],
+		'comments'	=>	true,
+	],

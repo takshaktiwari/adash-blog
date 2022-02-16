@@ -25,6 +25,21 @@ class InstallCommand extends Command
 
 	public function handle()
     {
+        $stub = $this->filesystem->get($this->stubsPath.'/config/config.stub');
+        $targetFile = $this->filesystem->get(config_path('site.php'));
+        if (!$this->str->of($targetFile)->contains("'blog'")) {
+            $lines = Str::of($targetFile)->beforeLast('];');
+            $lines .= "\n";
+            $lines .= $stub;
+            $lines .= "];\n";
+            $this->filesystem->put(config_path('site.php'), $lines);
+        }
+
+        if (!config('site.blog.install.command', true)) {
+            $this->error('SORRY !! Blog:Install command has been disabled.');
+            exit;
+        }
+
         $replacements = [
             [
                 $this->stubsPath.'/Models/Blog/BlogCategory.stub',

@@ -17,6 +17,9 @@
 					@endforeach
 				</div>
 			</div>
+			<div class="col-md-4">
+				<x-ablog::blog.sidebar />
+			</div>
 		</div>				
 	</div>
 </x-app-layout>
