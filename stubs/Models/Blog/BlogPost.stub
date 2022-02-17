@@ -32,4 +32,12 @@ class BlogPost extends Model
     {
         return Str::words(strip_tags($this->content), $length, ' ...');
     }
+    public function scopeActive($query='')
+    {
+        return $query->where('status', true);
+    }
+    public function scopeFeatured($query='')
+    {
+        return $query->where('featured', true);
+    }
 }

@@ -4,7 +4,7 @@ namespace Takshak\Ablog;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Takshak\Ablog\Console\InstallCommand;
-use Takshak\Ablog\View\Components\Blog\Sidebar;
+use Illuminate\Pagination\Paginator;
 
 class AblogServiceProvider extends ServiceProvider
 {
@@ -13,10 +13,12 @@ class AblogServiceProvider extends ServiceProvider
 	    $this->commands([ InstallCommand::class ]);
 	    $this->loadViewsFrom(__DIR__.'/../resources/views', 'ablog');
 	    $this->loadViewComponentsAs('ablog', [
-	        PostCard::class,
-	        PostGallery::class,
-	        Sidebar::class,
+	        View\Components\Blog\PostCard::class,
+	        View\Components\Blog\PostGallery::class,
+	        View\Components\Blog\Sidebar::class,
 	    ]);
+
+	    Paginator::useBootstrap();
 
 	    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     	$this->publishes([

@@ -8,11 +8,11 @@ class PostCard extends Component
 {
     public function __construct(public $post)
     {
-        
+
     }
     
     public function render()
     {
-    	return View::first(['components.blog.post-card', 'alertt::components.blog.post-card']);
+    	return View::first(['components.blog.post-card', 'ablog::components.blog.post-card']);
     }
 }
