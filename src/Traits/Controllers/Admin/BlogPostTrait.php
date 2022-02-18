@@ -67,6 +67,7 @@ trait BlogPostTrait {
 
 	    $post = new BlogPost;
 	    $post = $action->save($request, $post);
+	    $post->categories()->sync($request->post('category_ids'));
 	    return redirect()->route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! New Post is successfully created.');
 	}
 
@@ -102,6 +103,7 @@ trait BlogPostTrait {
 	        'commentable'	=>	'sometimes|boolean'
 	    ]);
 	    $post = $action->save($request, $post);
+	    $post->categories()->sync($request->post('category_ids'));
 	    return redirect()->route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! Post is successfully updated.');
 	}
 

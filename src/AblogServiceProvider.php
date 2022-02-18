@@ -16,6 +16,7 @@ class AblogServiceProvider extends ServiceProvider
 	        View\Components\Blog\PostCard::class,
 	        View\Components\Blog\PostGallery::class,
 	        View\Components\Blog\Sidebar::class,
+	        View\Components\Blog\Comment::class,
 	    ]);
 
 	    Paginator::useBootstrap();

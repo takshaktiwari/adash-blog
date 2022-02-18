@@ -55,9 +55,14 @@ class InstallCommand extends Command
             ],
 
             // Controllers
+            
             [
                 $this->stubsPath.'/Http/Controllers/Blog/PostController.stub',
                 app_path('Http/Controllers/Blog/PostController.php')
+            ],
+            [
+                $this->stubsPath.'/Http/Controllers/Blog/CommentController.stub',
+                app_path('Http/Controllers/Blog/CommentController.php')
             ],
             [
                 $this->stubsPath.'/Http/Controllers/Admin/BlogCategoryController.stub',

@@ -64,7 +64,7 @@
                                 </a>
                             </td>
                             <td class="text-nowrap">
-                                <a href="{{ route('admin.users.show', [$comment->user]) }}">
+                                <a href="{{ $comment->user ? route('admin.users.show', [$comment->user]) : 'javascript:void(0)' }}">
                                     {{ $comment->user?->name }}
                                 </a>
                                 <div>{{ $comment->user?->email }}</div>

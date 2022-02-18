@@ -36,10 +36,22 @@
                             </td>
                         </tr>
                     @endif
+                    @if($comment->parent)
+                        <tr>
+                            <td><b>Parent Comment:</b></td>
+                            <td>{{ $comment->parent->comment }}</td>
+                        </tr>
+                    @endif
+                    @if($comment->reply_to_name)
+                        <tr>
+                            <td><b>Reply To:</b></td>
+                            <td>{{ $comment->reply_to_name }}</td>
+                        </tr>
+                    @endif
                     <tr>
                         <td><b>Post:</b></td>
                         <td>
-                            <a href="{{ route('admin.blog.posts.show', [$comment->post]) }}" class="d-block">
+                            <a href="{{ route('admin.blog.posts.show', [$comment->post]) }}" class="d-block" target="_blank">
                                 {{ $comment->post?->title }}
                             </a>
                             {{ $comment->post?->created_at->format('d-M-Y h:i a') }}
@@ -49,6 +61,25 @@
                         <td><b>Comment:</b></td>
                         <td>{{ $comment->comment }}</td>
                     </tr>
+                    @if($comment->children->count())
+                        <td>   
+                            <td>Children Thread</td>
+                            <td>
+                                <table class="table mb-0">
+                                    @foreach($comment->children as $children)
+                                        <tr>
+                                            <td>
+                                                {{ $children->comment }}
+                                                <div class="small">
+                                                    {{ $children->created_at->format('d-M-Y H:i') }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </td>
+                        </td>   
+                    @endif
                     <tr>
                         <td class="text-nowrap"><b>Created At:</b></td>
                         <td>{{ $comment->created_at->format('d-M-Y h:i a') }}</td>

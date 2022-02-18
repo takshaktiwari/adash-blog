@@ -34,6 +34,11 @@
             <div class="card-body border-top">
                 {!! $post->content !!}
             </div>
+            @if($post->categories->count())
+                <div class="card-body border-top">
+                    Categories: {{ $post->categories->pluck('name')->implode(', ') }}
+                </div>
+            @endif
             <div class="card-footer">
                 <a href="{{ route('admin.blog.posts.edit', [$post]) }}" class="btn btn-success btn-loader">
                     <i class="fas fa-edit"></i> Edit

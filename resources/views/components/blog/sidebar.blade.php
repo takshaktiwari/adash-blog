@@ -87,10 +87,10 @@
 	<div class="card-body">
 		@foreach($recentComments as $comment)
 			<div class="mb-3">
-				<p class="mb-1 lc-2">
+				<a href="{{ route('blog.posts.show', [$comment->post, '#'.strtotime($comment->created_at)]) }}" class="mb-1 lc-2 text-decoration-none">
 					<i class="fas fa-quote-left"></i>
 					{{ $comment->comment }}
-				</p>
+				</a>
 				<span class="small">
 					<i class="fas fa-user"></i>
 					<b>Admin Tiwari:</b> 

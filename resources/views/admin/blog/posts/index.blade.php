@@ -87,7 +87,9 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                <img src="{{ $post->image_sm() }}" alt="image" width="90" class="rounded">
+                                <a href="{{ route('blog.posts.show', [$post]) }}" target="_blank">
+                                    <img src="{{ $post->image_sm() }}" alt="image" width="90" class="rounded">
+                                </a>
                             </td>
                             <td>
                                 <lc class="2">{{ $post->title }}</lc>

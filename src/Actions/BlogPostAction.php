@@ -10,7 +10,7 @@ class BlogPostAction
 	public function save($request, $post)
 	{
 		$post->title    = $request->post('title');
-		$post->slug     = Str::of($post->title.'-'.rand(1, 99))->slug('-');
+		$post->slug     = $post->slug ? $post->slug : Str::of($post->title.'-'.rand(1, 99))->slug('-');
 		$post->status   = $request->post('status');
 		$post->featured = $request->post('featured') ? true : false;
 		$post->commentable  = $request->post('commentable');

@@ -18,6 +18,7 @@ class CreateBlogCommentsTable extends Migration
             $table->foreignId('blog_post_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->default(null)->constrained()->onDelete('cascade');
             $table->foreignId('blog_comment_id')->nullable()->default(null)->constrained()->onDelete('cascade')->comment('replied comment id');
+            $table->string('reply_to_name')->nullable()->default(null);
             $table->string('name');
             $table->string('email');
             $table->text('comment');
