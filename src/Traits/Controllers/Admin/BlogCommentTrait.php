@@ -15,29 +15,29 @@ trait BlogCommentTrait {
 	    ->with('post:id,title,slug')
 	    ->with('user:id,name');
 	    if ($request->get('search')) {
-	        $query->where('comment');
+            $query->where('comment', 'LIKE', '%' . $request->get('search') . '%');
 	        $query->orWhere(function($query) use($request){
 	            $query->whereHas('post', function($query) use($request){
-	                $query->where('title', 'LIKE', '%'.$request->post('search').'%');
-	                $query->orWhere('slug', 'LIKE', '%'.$request->post('search').'%');
-	                $query->orWhere('id', 'LIKE', '%'.$request->post('search').'%');
+                    $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
+                    $query->orWhere('slug', 'LIKE', '%' . $request->get('search') . '%');
+                    $query->orWhere('id', 'LIKE', '%' . $request->get('search') . '%');
 	            });
 	        });
 	    }
 	    if ($request->get('user')) {
-	        $query->where('name', 'LIKE', '%'.$request->post('user').'%');
-	        $query->orWhere('email', 'LIKE', '%'.$request->post('user').'%');
+            $query->where('name', 'LIKE', '%' . $request->get('user') . '%');
+            $query->orWhere('email', 'LIKE', '%' . $request->get('user') . '%');
 	        $query->orWhere(function($query) use($request){
 	            $query->whereHas('user', function($query) use($request){
-	                $query->where('name', 'LIKE', '%'.$request->post('user').'%');
-	                $query->orWhere('email', 'LIKE', '%'.$request->post('user').'%');
+                    $query->where('name', 'LIKE', '%' . $request->get('user') . '%');
+                    $query->orWhere('email', 'LIKE', '%' . $request->get('user') . '%');
 	            });
 	        });
 	    }
-	    $comments = $query->latest()->paginate(50);
+        $comments = $query->latest()->paginate(50);
 
 	    return View::first(
-	    	['admin.blog.comments.index', 'ablog::admin.blog.comments.index'], 
+            ['admin.blog.comments.index', 'ablog::admin.blog.comments.index'],
 	    	compact('comments')
 	    );
 	}

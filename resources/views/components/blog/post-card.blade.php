@@ -6,6 +6,6 @@
 		</h4>
 		<p class="d-block small text-secondary mb-1">{{ $post->updated_at->format('D, d-M-Y H:i') }}</p>
 		<p class="card-text lc-3">{{ $post->excerpt() }}</p>
-		<a href="{{ route('blog.posts.show', [$post]) }}" class="btn btn-primary">Read More >></a>
+		<a href="{{ route('blog.posts.show', [$post]) }}" class="btn btn-primary">Read More <i class="fa-solid fa-angles-right"></i></a>
 	</div>
 </div>

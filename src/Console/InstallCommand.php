@@ -55,7 +55,7 @@ class InstallCommand extends Command
             ],
 
             // Controllers
-            
+
             [
                 $this->stubsPath.'/Http/Controllers/Blog/PostController.stub',
                 app_path('Http/Controllers/Blog/PostController.php')
@@ -107,7 +107,7 @@ class InstallCommand extends Command
                 $this->filesystem->ensureDirectoryExists(
                     $this->str->of($files[1])->beforeLast('/')
                 );
-                
+
                 $this->filesystem->copy($files[0], $files[1]);
             }
         }
@@ -132,6 +132,7 @@ class InstallCommand extends Command
 
             $lines = "<?php\n\n";
             $lines .= "use App\Http\Controllers\Blog\PostController;\n";
+            $lines .= "use App\Http\Controllers\Blog\CommentController;\n";
             $lines .= Str::of($targetFile)->after("<?php")->before('require');
             $lines .= $stub."\n\n";
             $lines .= "require";
@@ -165,7 +166,7 @@ class InstallCommand extends Command
 
             $this->filesystem->put($targetFilePath, $lines);
         }
-        
+
         $this->call('migrate');
 
         $this->newLine();

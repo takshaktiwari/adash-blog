@@ -34,7 +34,7 @@ trait BlogPostTrait{
 		$posts = $query->paginate(10);
 
 		return View::first(
-			['blog.posts.index', 'ablog::blog.posts.index'], 
+            ['blog.posts.index', 'ablog::blog.posts.index'],
 			compact('posts')
 		);
 	}
@@ -44,9 +44,10 @@ trait BlogPostTrait{
 		abort_if(!$post->status, 404);
 		$post->load('user:id,name')
 		->load('categories:id,name,slug')
-		->load(['comments' => function($query){
+        ->load(['comments' => function ($query) {
 			$query->select('id', 'name', 'blog_post_id', 'name', 'comment', 'reply_to_name', 'created_at');
-			$query->head()->with(['children' => function($query){
+            $query->head();
+            $query->with(['children' => function ($query) {
 				$query->select('id', 'name', 'blog_comment_id', 'comment', 'reply_to_name', 'created_at');
 				$query->with('parent:id,blog_comment_id,name');
 			}]);
@@ -61,7 +62,7 @@ trait BlogPostTrait{
 		->orderBy('id', 'DESC')->first();
 
 		return View::first(
-			['blog.posts.show', 'ablog::blog.posts.show'], 
+            ['blog.posts.show', 'ablog::blog.posts.show'],
 			compact('post', 'nextPost', 'prevPost')
 		);
 	}

@@ -70,10 +70,10 @@
 
 
 				<div class="comments mb-5">
-					<h3>Comments </h3>
+					<h3><i class="fa-regular fa-comments"></i> Comments </h3>
 					@foreach($post->comments as $comment)
 						<x-ablog-blog:comment col="12" :comment="$comment" class="mt-3" />
-						@if($comment->children->count())
+						@if($comment->children?->count())
 							@foreach($comment->children as $comment)
 								<x-ablog-blog:comment col="11" :comment="$comment" class="mt-1" bg="light" />
 							@endforeach
@@ -83,7 +83,7 @@
 					<form method="POST" action="{{ route('blog.comments.store', [$post]) }}" class="card write-comment mt-4" id="write-comment">
 						@csrf
 						<div class="card-header">
-							<h5 class="mb-0">Write Your Comment</h5>
+							<h5 class="mb-0"><i class="fa-solid fa-pen-nib"></i> Write Your Comment</h5>
 						</div>
 						<div class="card-body">
 							<div class="row">
