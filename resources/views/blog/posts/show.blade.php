@@ -1,6 +1,6 @@
 <x-app-layout>
-	<x-breadcrumb 
-		:title="'Post: '.$post->title" 
+	<x-breadcrumb
+		:title="'Post: '.$post->title"
 		:links="[
 			['text' => 'Blog Posts', 'url' => route('blog.posts.index')],
 			['text' => 'Post']
@@ -67,12 +67,12 @@
 						</div>
 					</div>
 				</div>
-				
+
 
 				<div class="comments mb-5">
 					<h3>Comments </h3>
 					@foreach($post->comments as $comment)
-						<x-ablog-blog:comment col="12" :comment="$comment" class="mt-3" />	
+						<x-ablog-blog:comment col="12" :comment="$comment" class="mt-3" />
 						@if($comment->children->count())
 							@foreach($comment->children as $comment)
 								<x-ablog-blog:comment col="11" :comment="$comment" class="mt-1" bg="light" />
@@ -105,7 +105,7 @@
 								<label for="">Your Comment: <span class="text-danger">*</span></label>
 								<textarea name="comment" rows="3" class="form-control" required>{{ old('comment') }}</textarea>
 							</div>
-							
+
 							<input type="hidden" name="blog_comment_id" value="{{ old('blog_comment_id') }}">
 							<input type="hidden" name="reply_to_name" value="{{ old('reply_to_name') }}">
 							<button type="submit" class="btn btn-dark">
@@ -118,14 +118,14 @@
 			<div class="col-lg-4">
 				<x-ablog-blog:sidebar />
 			</div>
-		</div>	
+		</div>
 
 		<hr class="mt-5">
-		<h3 class="fw-bold">Latest Posts</h3>		
-		<x-ablog-blog:post-gallery type="latest" />	
+		<h3 class="fw-bold">Latest Posts</h3>
+		<x-ablog-blog:post-gallery type="latest" />
 	</div>
 
-	<x-slot name="script">
+	@push('scripts')
 		<script>
 			$(document).ready(function() {
 				$(".reply_btn").click(function(event) {
@@ -138,14 +138,14 @@
 					$("#write-comment .card-body").prepend(`
 						<p id="reply_to_info" class="d-flex">
 							<span class="me-1">Reply to: </span>
-							<span class="bg-primary text-white d-flex rounded fw-bold">	
+							<span class="bg-primary text-white d-flex rounded fw-bold">
 								<span class="small px-2">@${replyName}</span>
 								<span class="border-start px-2" id="remove_reply">
 									<i class="fas fa-times cursor-pointer"></i>
 								<span>
 							<span>
 						</p>
-					`);	
+					`);
 				});
 
 				$("#write-comment").on('click', '#remove_reply', function(event) {
@@ -156,5 +156,5 @@
 				});
 			});
 		</script>
-	</x-slot>
+    @endpush
 </x-app-layout>
