@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class InstallCommand extends Command
 {
-	protected $signature = 'adash:blog:install {install=default}';
+	protected $signature = 'adash-blog:install {install=default}';
     protected $stubsPath;
     protected $filesystem;
     protected $str;
