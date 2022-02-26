@@ -15,6 +15,20 @@
 							<x-ablog-blog:post-card :post="$post" />
 						</div>
 					@endforeach
+					@if($posts->count() <= 0)
+
+						<div class="col-md-12 justify-content-center">
+							<div class="alert alert-danger">
+								<h2 class="text-center">Not Found</h2>
+								<div class="text-center fs-1">
+									<i class="fa-solid fa-triangle-exclamation"></i>
+								</div>
+								<h4 class="text-center">Sorry !! Your seach creteria not meet.</h4>
+
+							</div>
+						</div>
+					
+					@endif
 				</div>
 
 				<div class="post_pagination mt-4">

@@ -80,6 +80,8 @@
 						@endif
 					@endforeach
 
+					@if(config('site.blog.comments'))
+
 					<form method="POST" action="{{ route('blog.comments.store', [$post]) }}" class="card write-comment mt-4" id="write-comment">
 						@csrf
 						<div class="card-header">
@@ -113,6 +115,7 @@
 							</button>
 						</div>
 					</form>
+					@endif
 				</div>
 			</div>
 			<div class="col-lg-4">

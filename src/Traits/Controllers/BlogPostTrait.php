@@ -17,8 +17,8 @@ trait BlogPostTrait{
 				$query->orWhere('slug', 'LIKE', '%'.$request->get('search').'%');
 				$query->orWhere('content', 'LIKE', '%'.$request->get('search').'%');
 				$query->orWhereHas('categories', function($query) use($request){
-					$query->where('categories.name', 'LIKE', '%'.$request->get('search').'%');
-					$query->orWhere('categories.slug', 'LIKE', '%'.$request->get('search').'%');
+					$query->where('blog_categories.name', 'LIKE', '%'.$request->get('search').'%');
+					$query->orWhere('blog_categories.slug', 'LIKE', '%'.$request->get('search').'%');
 				});
 			});
 		}
@@ -31,7 +31,7 @@ trait BlogPostTrait{
 			});
 		}
 
-		$posts = $query->paginate(10);
+		$posts = $query->latest()->paginate(10);
 
 		return View::first(
             ['blog.posts.index', 'ablog::blog.posts.index'],
