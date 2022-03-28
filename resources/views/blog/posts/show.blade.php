@@ -70,51 +70,52 @@
 
 
 				<div class="comments mb-5">
-					<h3><i class="fa-regular fa-comments"></i> Comments </h3>
-					@foreach($post->comments as $comment)
-						<x-ablog-blog:comment col="12" :comment="$comment" class="mt-3" />
-						@if($comment->children?->count())
-							@foreach($comment->children as $comment)
-								<x-ablog-blog:comment col="11" :comment="$comment" class="mt-1" bg="light" />
-							@endforeach
-						@endif
-					@endforeach
+                    @if($post->comments->count())
+                        <h3><i class="fa-regular fa-comments"></i> Comments </h3>
+                        @foreach($post->comments as $comment)
+                            <x-ablog-blog:comment col="12" :comment="$comment" class="mt-3" />
+                            @if($comment->children?->count())
+                                @foreach($comment->children as $comment)
+                                    <x-ablog-blog:comment col="11" :comment="$comment" class="mt-1" bg="light" />
+                                @endforeach
+                            @endif
+                        @endforeach
+                    @endif
 
 					@if(config('site.blog.comments'))
+                        <form method="POST" action="{{ route('blog.comments.store', [$post]) }}" class="card write-comment mt-4" id="write-comment">
+                            @csrf
+                            <div class="card-header">
+                                <h5 class="mb-0 py-2"><i class="fa-solid fa-pen-nib"></i> Write Your Comment</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label for="">Your Name <span class="text-danger">*</span></label>
+                                            <input type="text" name="name" class="form-control" placeholder="Enter your name." required value="{{ old('name') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label for="">Your Email <span class="text-danger">*</span></label>
+                                            <input type="text" name="email" class="form-control" placeholder="Enter your email." required value="{{ old('email') }}">
+                                        </div>
+                                    </div>
+                                </div>
 
-					<form method="POST" action="{{ route('blog.comments.store', [$post]) }}" class="card write-comment mt-4" id="write-comment">
-						@csrf
-						<div class="card-header">
-							<h5 class="mb-0"><i class="fa-solid fa-pen-nib"></i> Write Your Comment</h5>
-						</div>
-						<div class="card-body">
-							<div class="row">
-								<div class="col-sm-6">
-									<div class="mb-3">
-										<label for="">Your Name <span class="text-danger">*</span></label>
-										<input type="text" name="name" class="form-control" placeholder="Enter your name." required value="{{ old('name') }}">
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="mb-3">
-										<label for="">Your Email <span class="text-danger">*</span></label>
-										<input type="text" name="email" class="form-control" placeholder="Enter your email." required value="{{ old('email') }}">
-									</div>
-								</div>
-							</div>
+                                <div class="mb-3">
+                                    <label for="">Your Comment: <span class="text-danger">*</span></label>
+                                    <textarea name="comment" rows="3" class="form-control" required>{{ old('comment') }}</textarea>
+                                </div>
 
-							<div class="mb-3">
-								<label for="">Your Comment: <span class="text-danger">*</span></label>
-								<textarea name="comment" rows="3" class="form-control" required>{{ old('comment') }}</textarea>
-							</div>
-
-							<input type="hidden" name="blog_comment_id" value="{{ old('blog_comment_id') }}">
-							<input type="hidden" name="reply_to_name" value="{{ old('reply_to_name') }}">
-							<button type="submit" class="btn btn-dark">
-								<i class="fas fa-save"></i> Submit
-							</button>
-						</div>
-					</form>
+                                <input type="hidden" name="blog_comment_id" value="{{ old('blog_comment_id') }}">
+                                <input type="hidden" name="reply_to_name" value="{{ old('reply_to_name') }}">
+                                <button type="submit" class="btn btn-dark">
+                                    <i class="fas fa-save"></i> Submit
+                                </button>
+                            </div>
+                        </form>
 					@endif
 				</div>
 			</div>
