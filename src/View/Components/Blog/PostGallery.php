@@ -1,9 +1,10 @@
 <?php
 
 namespace Takshak\Ablog\View\Components\Blog;
-use App\Models\Blog\BlogPost;
+
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Component;
+use Takshak\Ablog\Models\Blog\BlogPost;
 
 class PostGallery extends Component
 {
@@ -11,7 +12,7 @@ class PostGallery extends Component
     public $limit;
     public $orderBy;
     public $posts;
-    public function __construct($type='latest', $limit='6', $orderBy='random')
+    public function __construct($type = 'latest', $limit = '6', $orderBy = 'random')
     {
         $this->type     = $type;
         $this->limit    = $limit;
@@ -24,9 +25,9 @@ class PostGallery extends Component
         }
         if ($this->orderBy == 'random') {
             $query->inRandomOrder();
-        }elseif($this->orderBy == 'latest'){
+        } elseif ($this->orderBy == 'latest') {
             $query->latest();
-        }elseif($this->orderBy == 'oldest'){
+        } elseif ($this->orderBy == 'oldest') {
             $query->oldest();
         }
 

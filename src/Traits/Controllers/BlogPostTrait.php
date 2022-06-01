@@ -3,8 +3,8 @@
 namespace Takshak\Ablog\Traits\Controllers;
 
 use Illuminate\Support\Facades\View;
-use App\Models\Blog\BlogPost;
 use Illuminate\Http\Request;
+use Takshak\Ablog\Models\Blog\BlogPost;
 
 trait BlogPostTrait
 {

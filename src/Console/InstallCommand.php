@@ -4,12 +4,11 @@ namespace Takshak\Ablog\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Str;
 
 class InstallCommand extends Command
 {
-	protected $signature = 'adash-blog:install {install=default}';
+    protected $signature = 'adash-blog:install {install=default}';
     protected $stubsPath;
     protected $filesystem;
     protected $str;
@@ -18,14 +17,14 @@ class InstallCommand extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->stubsPath = __DIR__.'/../../stubs';
+        $this->stubsPath = __DIR__ . '/../../stubs';
         $this->filesystem = new Filesystem;
         $this->str = new Str;
     }
 
-	public function handle()
+    public function handle()
     {
-        $stub = $this->filesystem->get($this->stubsPath.'/config/config.stub');
+        $stub = $this->filesystem->get($this->stubsPath . '/config/config.stub');
         $targetFile = $this->filesystem->get(config_path('site.php'));
         if (!$this->str->of($targetFile)->contains("'blog'")) {
             $lines = Str::of($targetFile)->beforeLast('];');
@@ -41,63 +40,49 @@ class InstallCommand extends Command
         }
 
         $replacements = [
-            [
-                $this->stubsPath.'/Models/Blog/BlogCategory.stub',
-                app_path('Models/Blog/BlogCategory.php')
-            ],
-            [
-                $this->stubsPath.'/Models/Blog/BlogComment.stub',
-                app_path('Models/Blog/BlogComment.php')
-            ],
-            [
-                $this->stubsPath.'/Models/Blog/BlogPost.stub',
-                app_path('Models/Blog/BlogPost.php')
-            ],
-
             // Controllers
-
             [
-                $this->stubsPath.'/Http/Controllers/Blog/PostController.stub',
+                $this->stubsPath . '/Http/Controllers/Blog/PostController.stub',
                 app_path('Http/Controllers/Blog/PostController.php')
             ],
             [
-                $this->stubsPath.'/Http/Controllers/Blog/CommentController.stub',
+                $this->stubsPath . '/Http/Controllers/Blog/CommentController.stub',
                 app_path('Http/Controllers/Blog/CommentController.php')
             ],
             [
-                $this->stubsPath.'/Http/Controllers/Admin/BlogCategoryController.stub',
+                $this->stubsPath . '/Http/Controllers/Admin/BlogCategoryController.stub',
                 app_path('Http/Controllers/Admin/Blog/BlogCategoryController.php')
             ],
             [
-                $this->stubsPath.'/Http/Controllers/Admin/BlogCommentController.stub',
+                $this->stubsPath . '/Http/Controllers/Admin/BlogCommentController.stub',
                 app_path('Http/Controllers/Admin/Blog/BlogCommentController.php')
             ],
             [
-                $this->stubsPath.'/Http/Controllers/Admin/BlogPostController.stub',
+                $this->stubsPath . '/Http/Controllers/Admin/BlogPostController.stub',
                 app_path('Http/Controllers/Admin/Blog/BlogPostController.php')
             ],
 
             // seeders
             [
-                $this->stubsPath.'/database/seeders/BlogCategorySeeder.stub',
+                $this->stubsPath . '/database/seeders/BlogCategorySeeder.stub',
                 database_path('seeders/BlogCategorySeeder.php')
             ],
             [
-                $this->stubsPath.'/database/seeders/BlogPostSeeder.stub',
+                $this->stubsPath . '/database/seeders/BlogPostSeeder.stub',
                 database_path('seeders/BlogPostSeeder.php')
             ],
 
             // factories
             [
-                $this->stubsPath.'/database/factories/Blog/BlogCategoryFactory.stub',
+                $this->stubsPath . '/database/factories/Blog/BlogCategoryFactory.stub',
                 database_path('factories/Blog/BlogCategoryFactory.php')
             ],
             [
-                $this->stubsPath.'/database/factories/Blog/BlogPostFactory.stub',
+                $this->stubsPath . '/database/factories/Blog/BlogPostFactory.stub',
                 database_path('factories/Blog/BlogPostFactory.php')
             ],
             [
-                $this->stubsPath.'/database/factories/Blog/BlogCommentFactory.stub',
+                $this->stubsPath . '/database/factories/Blog/BlogCommentFactory.stub',
                 database_path('factories/Blog/BlogCommentFactory.php')
             ],
         ];
@@ -114,7 +99,7 @@ class InstallCommand extends Command
 
 
         // add routes routes/admin.php
-        $stub = $this->filesystem->get($this->stubsPath.'/routes/admin.stub');
+        $stub = $this->filesystem->get($this->stubsPath . '/routes/admin.stub');
         $targetFile = $this->filesystem->get(base_path('routes/admin.php'));
         if (!$this->str->of($targetFile)->contains("Route::prefix('blog')")) {
 
@@ -126,15 +111,12 @@ class InstallCommand extends Command
         }
 
         // add routes routes/web.php
-        $stub = $this->filesystem->get($this->stubsPath.'/routes/web.stub');
+        $stub = $this->filesystem->get($this->stubsPath . '/routes/web.stub');
         $targetFile = $this->filesystem->get(base_path('routes/web.php'));
         if (!$this->str->of($targetFile)->contains("Route::prefix('blog')")) {
 
-            $lines = "<?php\n\n";
-            $lines .= "use App\Http\Controllers\Blog\PostController;\n";
-            $lines .= "use App\Http\Controllers\Blog\CommentController;\n";
-            $lines .= Str::of($targetFile)->after("<?php")->before('require');
-            $lines .= $stub."\n\n";
+            $lines = Str::of($targetFile)->before('require');
+            $lines .= $stub . "\n\n";
             $lines .= "require";
             $lines .= Str::of($targetFile)->after('require');
 
@@ -142,7 +124,7 @@ class InstallCommand extends Command
         }
 
         // add routes to admin sidebar component
-        $stub = $this->filesystem->get($this->stubsPath.'/resources/views/sidebar.stub');
+        $stub = $this->filesystem->get($this->stubsPath . '/resources/views/sidebar.stub');
         $targetFilePath = resource_path('views/components/admin/sidebar.blade.php');
         $targetFile = $this->filesystem->get($targetFilePath);
         if (!$this->str->of($targetFile)->contains("Manage Blog Posts")) {
@@ -160,8 +142,8 @@ class InstallCommand extends Command
         if (!$this->str->of($targetFile)->contains("BlogCategorySeeder")) {
             $lines = Str::of($targetFile)->beforeLast(';');
             $lines .= ";\n";
-            $lines .= "\t\t".'$this->call(BlogCategorySeeder::class);'."\n";
-            $lines .= "\t\t".'$this->call(BlogPostSeeder::class);'."\n";
+            $lines .= "\t\t" . '$this->call(BlogCategorySeeder::class);' . "\n";
+            $lines .= "\t\t" . '$this->call(BlogPostSeeder::class);' . "\n";
             $lines .= Str::of($targetFile)->afterLast(';');
 
             $this->filesystem->put($targetFilePath, $lines);

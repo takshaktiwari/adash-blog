@@ -1,11 +1,12 @@
 <?php
 
 namespace Takshak\Ablog\View\Components\Blog;
-use App\Models\Blog\BlogCategory;
-use App\Models\Blog\BlogComment;
-use App\Models\Blog\BlogPost;
+
 use Illuminate\Support\Facades\View;
 use Illuminate\View\Component;
+use Takshak\Ablog\Models\Blog\BlogCategory;
+use Takshak\Ablog\Models\Blog\BlogComment;
+use Takshak\Ablog\Models\Blog\BlogPost;
 
 class Sidebar extends Component
 {
@@ -15,7 +16,7 @@ class Sidebar extends Component
     public $latestPosts = 8;
     public $recentComments = 4;
 
-    public function __construct($search=true, $categories=8, $featuredPosts=8, $latestPosts=8, $recentComments=4)
+    public function __construct($search = true, $categories = 8, $featuredPosts = 8, $latestPosts = 8, $recentComments = 4)
     {
         $this->search = $search;
 
@@ -39,9 +40,9 @@ class Sidebar extends Component
             $this->recentComments = BlogComment::select('id', 'blog_post_id', 'name', 'comment', 'created_at')->with('post:id,slug')->latest()->limit($this->recentComments)->get();
         }
     }
-    
+
     public function render()
     {
-    	return View::first(['components.blog.sidebar', 'ablog::components.blog.sidebar']);
+        return View::first(['components.blog.sidebar', 'ablog::components.blog.sidebar']);
     }
 }
