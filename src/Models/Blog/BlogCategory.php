@@ -2,15 +2,20 @@
 
 namespace Takshak\Ablog\Models\Blog;
 
-use Database\Factories\Blog\BlogCategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Takshak\Ablog\Models\Blog\BlogCategory as BlogBlogCategory;
+use Takshak\Ablog\Models\Blog\BlogPost;
+use Database\Factories\Blog\BlogCategoryFactory;
+use Illuminate\Database\Eloquent\Model;
 use Takshak\Adash\Traits\Models\CommonModelTrait;
 
 class BlogCategory extends Model
 {
-    use HasFactory, CommonModelTrait;
+    use HasFactory;
+    use CommonModelTrait;
 
     protected $guarded = [];
 
@@ -20,12 +25,42 @@ class BlogCategory extends Model
     }
 
     /**
+     * Get all of the children for the BlogCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(BlogBlogCategory::class);
+    }
+
+    /**
      * Get the parentCategory that owns the BlogCategory
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(BlogCategory::class);
+        return $this->belongsTo(BlogBlogCategory::class);
+    }
+
+    /**
+     * The blogPosts that belong to the BlogCategory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function blogPosts(): BelongsToMany
+    {
+        return $this->belongsToMany(BlogPost::class);
+    }
+
+    public function scopeParent($query=null)
+    {
+        return $query->whereNull('blog_category_id');
+    }
+
+    public function scopeChildren($query=null)
+    {
+        return $query->whereNotNull('blog_category_id');
     }
 }
