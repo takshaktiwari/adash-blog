@@ -55,8 +55,7 @@
                                             <h6 class="lc-2 mb-0">{{ $nextPost->title }}</h6>
                                             <span class="text-secondary small">Next Post</span>
                                         </div>
-                                        <a href="{{ route('blog.posts.show', [$nextPost]) }}"
-                                            class="display-6 my-auto">
+                                        <a href="{{ route('blog.posts.show', [$nextPost]) }}" class="display-6 my-auto">
                                             <i class="fas fa-arrow-right"></i>
                                         </a>
                                     </div>
@@ -70,14 +69,8 @@
                 <div class="comments mb-5">
                     @if ($post->comments->count())
                         <h3><i class="fa-regular fa-comments"></i> Comments </h3>
-                        @foreach ($comments as $comment)
+                        @foreach ($post->comments as $comment)
                             <x-ablog-blog:comment col="12" :comment="$comment" class="mt-3" />
-                            @if ($comment->children?->count())
-                                @foreach ($comment->children->collapse() as $reply)
-                                    <x-ablog-blog:comment col="11" :comment="$reply" class="mt-1"
-                                            bg="light" />
-                                @endforeach
-                            @endif
                         @endforeach
                     @endif
 
@@ -134,7 +127,29 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                $(".reply_btn").click(function(event) {
+                $(".comments").on('click', ".replies-btn", function(e) {
+                    e.preventDefault();
+                    var repliesBtn = $(this);
+                    var commentId = $(this).attr('data-comment-id');
+                    repliesBtn.attr('disabled', '');
+
+                    $.ajax({
+                            type: "POST",
+                            url: repliesBtn.attr('href'),
+                            data: {
+                                '_token': '{{ csrf_token() }}'
+                            }
+                        })
+                        .done((response) => {
+                            $("#comment_" + commentId).after(response);
+                            repliesBtn.remove();
+                        })
+                        .fail(() => {
+                            repliesBtn.removeAttr('disabled');
+                        });
+                });
+
+                $(".comments").on('click', ".reply_btn", function(e) {
                     var commentParent = $(this).attr('data-parent');
                     var replyName = $(this).attr('data-reply_name');
                     $("input[name='blog_comment_id']").val(commentParent);

@@ -49,6 +49,10 @@ class BlogComment extends Model
     {
         return $this->hasMany(BlogComment::class);
     }
+    public function replies()
+    {
+        return $this->children();
+    }
 
     /**
      * Get the parent that owns the BlogComment
@@ -64,7 +68,15 @@ class BlogComment extends Model
     {
         return $query->whereNull('blog_comment_id');
     }
+    public function scopeParent(Builder $query)
+    {
+        return $query->whereNull('blog_comment_id');
+    }
     public function scopeChildren(Builder $query)
+    {
+        return $query->whereNotNull('blog_comment_id');
+    }
+    public function scopeReplies(Builder $query)
     {
         return $query->whereNotNull('blog_comment_id');
     }

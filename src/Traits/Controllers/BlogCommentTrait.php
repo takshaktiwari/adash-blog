@@ -2,6 +2,7 @@
 
 namespace Takshak\Ablog\Traits\Controllers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Takshak\Ablog\Models\Blog\BlogComment;
 use Takshak\Ablog\Models\Blog\BlogPost;
@@ -29,5 +30,19 @@ trait BlogCommentTrait
         ]);
 
         return to_route('blog.posts.show', [$post])->withTitle('Your comment is posted.')->withSuccess('SUCCESS !! Your comment has been successfully stored.');
+    }
+
+    public function ajaxReplies(BlogComment $blogComment)
+    {
+        $comments = BlogComment::query()
+            ->select('id', 'blog_comment_id', 'comment', 'created_at', 'id', 'name', 'reply_to_name')
+            ->where('blog_comment_id', $blogComment->id)
+            ->withCount('replies')
+            ->oldest()
+            ->get();
+        return View::first(
+            ['blog.posts.comments-replies', 'ablog::blog.posts.comments-replies'],
+            compact('comments')
+        );
     }
 }

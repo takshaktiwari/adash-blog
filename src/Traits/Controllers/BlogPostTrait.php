@@ -43,28 +43,10 @@ trait BlogPostTrait
         $post->load('user:id,name')
             ->load('categories:id,name,slug')
             ->load(['comments' => function ($query) {
-                $query->head()
-                    ->select('id', 'name', 'blog_post_id', 'name', 'comment', 'reply_to_name', 'created_at')
-                    ->with(['children' => function ($query) {
-                        $query->select('id', 'name', 'blog_comment_id', 'comment', 'reply_to_name', 'created_at')
-                            ->with(['children' => function ($query) {
-                                $query->select('id', 'name', 'blog_comment_id', 'comment', 'reply_to_name', 'created_at');
-                            }]);
-                    }]);
+                $query->select('id', 'name', 'blog_post_id', 'name', 'comment', 'reply_to_name', 'created_at');
+                $query->parent();
+                $query->withCount('replies');
             }]);
-
-        $comments = $post->comments->map(function ($item) {
-            $children = $item->children;
-            unset($item->children);
-            $item->children = $children->map(function ($item2) {
-                $allItems = collect($item2->toArray())->collapse()->toArray();
-                array_unshift($allItems, collect($item2)->except(['children'])->toArray());
-
-                return collect($allItems);
-            });
-
-            return $item;
-        });
 
         $nextPost = BlogPost::select('id', 'title', 'slug')
             ->where('id', '>', $post->id)
@@ -78,7 +60,7 @@ trait BlogPostTrait
 
         return View::first(
             ['blog.posts.show', 'ablog::blog.posts.show'],
-            compact('post', 'comments', 'nextPost', 'prevPost')
+            compact('post', 'nextPost', 'prevPost')
         );
     }
 }
