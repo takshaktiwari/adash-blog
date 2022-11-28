@@ -12,7 +12,7 @@
                         <p class="mb-1 small fw-normal text-secondary">
                             <span class="small">{{ $comment->created_at->format('D, d-M-Y H:i') }}</span>
                             <a href="#write-comment" class="reply_btn small" data-reply_name="{{ $comment->name }}"
-                                data-parent="{{ $comment?->blog_comment_id ? $comment?->blog_comment_id : $comment->id }}"><i
+                                data-parent="{{ $comment->id }}"><i
                                     class="fas fa-share"></i> Reply</a>
                         </p>
                         <p class="mb-0 small">

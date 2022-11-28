@@ -37,7 +37,13 @@ class Sidebar extends Component
 
         $this->recentComments = (int)$recentComments;
         if ($this->recentComments) {
-            $this->recentComments = BlogComment::select('id', 'blog_post_id', 'name', 'comment', 'created_at')->with('post:id,slug')->latest()->limit($this->recentComments)->get();
+            $this->recentComments = BlogComment::query()
+                ->select('id', 'blog_post_id', 'name', 'comment', 'created_at')
+                ->with('post:id,slug')
+                ->whereRelation('post', 'status', true)
+                ->latest()
+                ->limit($this->recentComments)
+                ->get();
         }
     }
 
