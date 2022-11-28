@@ -5,6 +5,7 @@ namespace Takshak\Ablog\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use Takshak\Imager\Facades\Picsum;
 
 class InstallCommand extends Command
 {
@@ -18,8 +19,8 @@ class InstallCommand extends Command
     {
         parent::__construct();
         $this->stubsPath = __DIR__ . '/../../stubs';
-        $this->filesystem = new Filesystem;
-        $this->str = new Str;
+        $this->filesystem = new Filesystem();
+        $this->str = new Str();
     }
 
     public function handle()
@@ -97,32 +98,6 @@ class InstallCommand extends Command
             }
         }
 
-
-        // add routes routes/admin.php
-        $stub = $this->filesystem->get($this->stubsPath . '/routes/admin.stub');
-        $targetFile = $this->filesystem->get(base_path('routes/admin.php'));
-        if (!$this->str->of($targetFile)->contains("Route::prefix('blog')")) {
-
-            $lines = Str::of($targetFile)->beforeLast('});');
-            $lines .= $stub;
-            $lines .= "});\n";
-
-            $this->filesystem->put(base_path('routes/admin.php'), $lines);
-        }
-
-        // add routes routes/web.php
-        $stub = $this->filesystem->get($this->stubsPath . '/routes/web.stub');
-        $targetFile = $this->filesystem->get(base_path('routes/web.php'));
-        if (!$this->str->of($targetFile)->contains("Route::prefix('blog')")) {
-
-            $lines = Str::of($targetFile)->before('require');
-            $lines .= $stub . "\n\n";
-            $lines .= "require";
-            $lines .= Str::of($targetFile)->after('require');
-
-            $this->filesystem->put(base_path('routes/web.php'), $lines);
-        }
-
         // add routes to admin sidebar component
         $stub = $this->filesystem->get($this->stubsPath . '/resources/views/sidebar.stub');
         $targetFilePath = resource_path('views/components/admin/sidebar.blade.php');
@@ -153,6 +128,12 @@ class InstallCommand extends Command
 
         $this->newLine();
         $this->line('Seeding blog posts');
+        if (Picsum::isEmpty()) {
+            $this->newLine();
+            $this->info('No images are there in imager bucket. Seeding the bucket first.');
+            $this->call('imager:seed');
+        }
+
         $this->call('db:seed', [
             '--class' => 'BlogCategorySeeder'
         ]);

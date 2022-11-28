@@ -19,11 +19,20 @@ class AblogServiceProvider extends ServiceProvider
             View\Components\Blog\Comment::class,
         ]);
 
-        Paginator::useBootstrap();
-
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views'),
         ]);
+
+        Paginator::useBootstrap();
+        $this->loadRoutes();
+    }
+
+    public function loadRoutes()
+    {
+        if(config('site.blog.routes.default', true)){
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        }
     }
 }
