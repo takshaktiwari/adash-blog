@@ -1,5 +1,5 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
+	<x-admin.breadcrumb
 		title='Blog Categories Create'
 		:links="[
 			['text' => 'Dashboard', 'url' => route('admin.dashboard') ],
@@ -10,7 +10,7 @@
             ['text' => 'All Categories', 'icon' => 'fas fa-list', 'url' => route('admin.blog.categories.index'), 'permission' => 'blog_categories_access', 'class' => 'btn-success btn-loader'],
             ['text' => 'Dashboard', 'icon' => 'fas fa-technometer', 'url' => auth()->user()->dashboardRoute(), 'class' => 'btn-dark btn-loader'],
         ]" />
-	
+
     <form method="POST" action="{{ route('admin.blog.categories.store') }}" class="card shadow-sm" enctype="multipart/form-data">
         @csrf
         <div class="card-body table-responsive">
@@ -19,6 +19,11 @@
                     <div class="form-group">
                         <label for="">Image </label>
                         <input type="file" name="thumbnail" class="form-control" >
+                        <span class="small">
+                            Image Size:
+                            {{ config('site.blog.images.categories.width') }} x
+                            {{ config('site.blog.images.categories.height') }}
+                        </span>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -80,5 +85,5 @@
             </button>
         </div>
     </form>
-    
+
 </x-admin.layout>

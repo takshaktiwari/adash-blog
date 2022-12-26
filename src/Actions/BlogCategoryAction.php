@@ -26,11 +26,15 @@ class BlogCategoryAction
             $category->image_sm = 'blog_categories/sm/' . $imageName;
 
             Imager::init($request->file('thumbnail'))
-                ->resizeFit(800, 500)->inCanvas('#fff')
+                ->resizeFit(
+                    config('site.blog.images.categories.width', 800),
+                    config('site.blog.images.categories.height', 500)
+                )
+                ->inCanvas('#fff')
                 ->basePath(Storage::disk('public')->path('/'))
                 ->save($category->image_lg)
-                ->save($category->image_md, 400)
-                ->save($category->image_sm, 200);
+                ->save($category->image_md, config('site.blog.images.categories.width', 800) / 2)
+                ->save($category->image_sm, config('site.blog.images.categories.width', 500) / 4);
         }
         $category->save();
 

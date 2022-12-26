@@ -25,5 +25,15 @@
                 'admin'     =>  true,
                 'front'     =>  true
             ]
+        ],
+        'images' => [
+            'categories'    =>  [
+                'width'     =>  800,
+                'height'    =>  500
+            ],
+            'posts'         =>  [
+                'width'     =>  800,
+                'height'    =>  500
+            ]
         ]
 	],

@@ -29,11 +29,15 @@ class BlogPostAction
             $post->image_lg = 'blog_posts/' . $imageName;
 
             Imager::init($request->file('thumbnail'))
-                ->resizeFit(800, 500)->inCanvas('#fff')
+                ->resizeFit(
+                    config('site.blog.images.posts.width', 800),
+                    config('site.blog.images.posts.height', 500)
+                )
+                ->inCanvas('#fff')
                 ->basePath(Storage::disk('public')->path('/'))
                 ->save($post->image_lg)
-                ->save($post->image_md, 400)
-                ->save($post->image_sm, 200);
+                ->save($post->image_md, config('site.blog.images.posts.width', 800) / 2)
+                ->save($post->image_sm, config('site.blog.images.posts.width', 500) / 4);
         }
         $post->save();
 

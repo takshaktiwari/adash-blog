@@ -1,5 +1,5 @@
 <x-admin.layout>
-	<x-admin.breadcrumb 
+	<x-admin.breadcrumb
 		title='Blog Posts Create'
 		:links="[
 			['text' => 'Dashboard', 'url' => auth()->user()->dashboardRoute() ],
@@ -23,6 +23,11 @@
                     <div class="form-group">
                         <label for="">Image <span class="text-danger">*</span></label>
                         <input type="file" name="thumbnail" class="form-control" required>
+                        <span class="small">
+                            Image Size:
+                            {{ config('site.blog.images.posts.width') }} x
+                            {{ config('site.blog.images.posts.height') }}
+                        </span>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -86,7 +91,7 @@
             </button>
         </div>
     </form>
-    
+
     <x-slot name="script">
         <script src="{{ asset('assets/admin/js/tinymce.min.js') }}" referrerpolicy="origin"></script>
         <script>
@@ -101,10 +106,10 @@
                 autosave_ask_before_unload: true,
                 height: 400,
                 toolbar_mode: 'sliding',
-                file_picker_types: 'image', 
-                images_upload_handler: function (blobinfo, success, failure) {     
-                    success("data:" + blobinfo.blob().type + ";base64," + blobinfo.base64()); 
-                } 
+                file_picker_types: 'image',
+                images_upload_handler: function (blobinfo, success, failure) {
+                    success("data:" + blobinfo.blob().type + ";base64," + blobinfo.base64());
+                }
             });
         </script>
     </x-slot>
