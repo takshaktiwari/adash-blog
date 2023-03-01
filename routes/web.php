@@ -7,7 +7,7 @@ use App\Http\Controllers\Blog\PostController;
 use App\Http\Controllers\Blog\CommentController;
 use Illuminate\Support\Facades\Route;
 use Takshak\Adash\Http\Middleware\GatesMiddleware;
-use Takshak\Adash\Http\Middleware\RefererMiddleware;
+use Takshak\Adash\Http\Middleware\ReferrerMiddleware;
 
 Route::middleware('web')->group(function () {
     if (config('site.blog.routes.sections.front', true)) {
@@ -25,7 +25,7 @@ Route::middleware('web')->group(function () {
 
     # admin routes
     if (config('site.blog.routes.sections.admin', true)) {
-        Route::middleware(['auth', GatesMiddleware::class, RefererMiddleware::class])
+        Route::middleware(['auth', GatesMiddleware::class, ReferrerMiddleware::class])
             ->prefix('admin')
             ->name('admin.')
             ->group(function () {
