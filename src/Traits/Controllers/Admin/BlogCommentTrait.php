@@ -8,7 +8,6 @@ use Takshak\Ablog\Models\Blog\BlogComment;
 
 trait BlogCommentTrait
 {
-
     public function index(Request $request)
     {
         $this->authorize('blog_comments_access');
@@ -73,13 +72,13 @@ trait BlogCommentTrait
         $comment->comment = $request->post('comment');
         $comment->save();
 
-        return to_route('admin.blog.comments.show', [$comment])->withSuccess('SUCCESS !! Comment is successfully updated');
+        return redirect()->route('admin.blog.comments.show', [$comment])->withSuccess('SUCCESS !! Comment is successfully updated');
     }
 
     public function destroy(BlogComment $comment)
     {
         $this->authorize('blog_comments_delete');
         $comment->delete();
-        return to_route('admin.blog.comments.index')->withSuccess('SUCCESS !! Blog comment is successfully deleted.');
+        return redirect()->route('admin.blog.comments.index')->withSuccess('SUCCESS !! Blog comment is successfully deleted.');
     }
 }

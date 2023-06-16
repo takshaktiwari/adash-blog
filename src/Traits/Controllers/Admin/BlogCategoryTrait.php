@@ -61,10 +61,10 @@ trait BlogCategoryTrait
             'meta_title'    =>  'nullable|max:255',
         ]);
 
-        $category = new BlogCategory;
+        $category = new BlogCategory();
         $category = $action->save($request, $category);
 
-        return to_route('admin.blog.categories.index')->withSuccess('SUCCESS !! New category is successfully added.');
+        return redirect()->route('admin.blog.categories.index')->withSuccess('SUCCESS !! New category is successfully added.');
     }
 
     public function edit(BlogCategory $category)
@@ -90,7 +90,7 @@ trait BlogCategoryTrait
 
         $category = $action->save($request, $category);
 
-        return to_route('admin.blog.categories.index')->withSuccess('SUCCESS !! New category is successfully updated.');
+        return redirect()->route('admin.blog.categories.index')->withSuccess('SUCCESS !! New category is successfully updated.');
     }
 
     public function statusToggle(BlogCategory $category)
@@ -99,7 +99,7 @@ trait BlogCategoryTrait
         $category->update([
             'status' => ($category->status) ? false : true
         ]);
-        return to_route('admin.blog.categories.index')->withSuccess('SUCCESS !! Categories is successfully updated.');
+        return redirect()->route('admin.blog.categories.index')->withSuccess('SUCCESS !! Categories is successfully updated.');
     }
 
     public function featuredToggle(BlogCategory $category)
@@ -108,7 +108,7 @@ trait BlogCategoryTrait
         $category->update([
             'featured' => ($category->featured) ? false : true
         ]);
-        return to_route('admin.blog.categories.index')->withSuccess('SUCCESS !! Featured category is successfully updated.');
+        return redirect()->route('admin.blog.categories.index')->withSuccess('SUCCESS !! Featured category is successfully updated.');
     }
 
     public function destroy(BlogCategory $category)
@@ -121,6 +121,6 @@ trait BlogCategoryTrait
         ]);
 
         $category->delete();
-        return to_route('admin.blog.categories.index')->withSuccess('SUCCESS !! Category is successfully deleted');
+        return redirect()->route('admin.blog.categories.index')->withSuccess('SUCCESS !! Category is successfully deleted');
     }
 }

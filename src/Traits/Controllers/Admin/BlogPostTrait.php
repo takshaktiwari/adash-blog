@@ -11,7 +11,6 @@ use Takshak\Ablog\Models\Blog\BlogPost;
 
 trait BlogPostTrait
 {
-
     public function index(Request $request)
     {
         $this->authorize('blog_posts_access');
@@ -67,10 +66,10 @@ trait BlogPostTrait
             'commentable'    =>    'sometimes|boolean'
         ]);
 
-        $post = new BlogPost;
+        $post = new BlogPost();
         $post = $action->save($request, $post);
         $post->categories()->sync($request->post('category_ids'));
-        return to_route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! New Post is successfully created.');
+        return redirect()->route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! New Post is successfully created.');
     }
 
     public function show(BlogPost $post)
@@ -106,7 +105,7 @@ trait BlogPostTrait
         ]);
         $post = $action->save($request, $post);
         $post->categories()->sync($request->post('category_ids'));
-        return to_route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! Post is successfully updated.');
+        return redirect()->route('admin.blog.posts.show', [$post])->withSuccess('SUCCESS !! Post is successfully updated.');
     }
 
     public function statusToggle(BlogPost $post)
@@ -115,7 +114,7 @@ trait BlogPostTrait
         $post->update([
             'status' => ($post->status) ? false : true
         ]);
-        return to_route('admin.blog.posts.index')->withSuccess('SUCCESS !! Posts is successfully updated.');
+        return redirect()->route('admin.blog.posts.index')->withSuccess('SUCCESS !! Posts is successfully updated.');
     }
 
     public function featuredToggle(BlogPost $post)
@@ -124,7 +123,7 @@ trait BlogPostTrait
         $post->update([
             'featured' => ($post->featured) ? false : true
         ]);
-        return to_route('admin.blog.posts.index')->withSuccess('SUCCESS !! Featured posts is successfully updated.');
+        return redirect()->route('admin.blog.posts.index')->withSuccess('SUCCESS !! Featured posts is successfully updated.');
     }
 
     public function destroy(BlogPost $post)
@@ -137,6 +136,6 @@ trait BlogPostTrait
         ]);
 
         $post->delete();
-        return to_route('admin.blog.posts.index')->withSuccess('SUCCESS !! Post is successfully deleted');
+        return redirect()->route('admin.blog.posts.index')->withSuccess('SUCCESS !! Post is successfully deleted');
     }
 }

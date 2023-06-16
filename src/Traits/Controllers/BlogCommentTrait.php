@@ -29,7 +29,7 @@ trait BlogCommentTrait
             'comment'           => $request->post('comment'),
         ]);
 
-        return to_route('blog.posts.show', [$post])->withTitle('Your comment is posted.')->withSuccess('SUCCESS !! Your comment has been successfully stored.');
+        return redirect()->route('blog.posts.show', [$post])->withTitle('Your comment is posted.')->withSuccess('SUCCESS !! Your comment has been successfully stored.');
     }
 
     public function ajaxReplies(BlogComment $blogComment)
