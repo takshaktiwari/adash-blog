@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card post-card">
 	<img class="card-img-top" src="{{ $post->image_md() }}" alt="Card image" class="w-100">
 	<div class="card-body">
 		<h4 class="card-title lc-2">

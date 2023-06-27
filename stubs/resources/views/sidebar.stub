@@ -36,13 +36,15 @@
                     </li>
                     @endcanany
 
-                    @can('blog_comments_access')
-                    <li>
-                        <a href="{{ route('admin.blog.comments.index') }}" class="waves-effect">
-                            <i class="fas fa-comments"></i>
-                            <span>Blog Comments</span>
-                        </a>
-                    </li>
-                    @endcan
+                    @if (config('site.blog.comments'))
+                        @can('blog_comments_access')
+                        <li>
+                            <a href="{{ route('admin.blog.comments.index') }}" class="waves-effect">
+                                <i class="fas fa-comments"></i>
+                                <span>Blog Comments</span>
+                            </a>
+                        </li>
+                        @endcan
+                    @endif
                 @endif
 
