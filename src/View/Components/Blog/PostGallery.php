@@ -12,16 +12,23 @@ class PostGallery extends Component
     public $limit;
     public $orderBy;
     public $posts;
-    public function __construct($type = 'latest', $limit = '6', $orderBy = 'random', $posts = null)
+    public $categories;
+    public function __construct($type = 'latest', $limit = '6', $orderBy = 'random', $posts = null, $categories = [])
     {
         $this->type     = $type;
         $this->limit    = $limit;
         $this->orderBy    = $orderBy;
+        $this->categories    = $categories;
 
         if ($posts) {
             $this->posts = $posts;
         } else {
-            $query = BlogPost::active();
+            $query = BlogPost::active()
+                ->when(count($this->categories), function ($query) {
+                    $query->whereHas('categories', function ($query) {
+                        $query->whereIn('blog_categories.id', $this->categories);
+                    });
+                });
 
             if ($this->type == 'featured') {
                 $query->featured();
