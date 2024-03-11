@@ -15,10 +15,14 @@ class Sidebar extends Component
     public $featuredPosts = 8;
     public $latestPosts = 8;
     public $recentComments = 4;
+    public $featuredCategories = [];
+    public $latestCategories = [];
 
-    public function __construct($search = true, $categories = 8, $featuredPosts = 8, $latestPosts = 8, $recentComments = 4)
+    public function __construct($search = true, $categories = 8, $featuredCategories = [], $featuredPosts = 8, $latestCategories = [], $latestPosts = 8, $recentComments = 4)
     {
         $this->search = $search;
+        $this->featuredCategories = $featuredCategories;
+        $this->latestCategories = $latestCategories;
 
         $this->categories = (int)$categories;
         if ($this->categories) {
@@ -33,12 +37,32 @@ class Sidebar extends Component
 
         $this->featuredPosts = (int)$featuredPosts;
         if ($this->featuredPosts) {
-            $this->featuredPosts = BlogPost::select('id', 'title', 'slug', 'image_sm', 'updated_at')->featured()->active()->limit($this->featuredPosts)->get();
+            $this->featuredPosts = BlogPost::query()
+                ->select('id', 'title', 'slug', 'image_sm', 'updated_at')
+                ->when(count($this->featuredCategories), function ($query) {
+                    $query->whereHas('categories', function ($query) {
+                        $query->whereIn('blog_categories.id', $this->featuredCategories);
+                    });
+                })
+                ->featured()
+                ->active()
+                ->limit($this->featuredPosts)
+                ->get();
         }
 
         $this->latestPosts = (int)$latestPosts;
         if ($this->latestPosts) {
-            $this->latestPosts = BlogPost::select('id', 'title', 'slug', 'image_sm', 'updated_at')->active()->latest()->limit($this->latestPosts)->get();
+            $this->latestPosts = BlogPost::query()
+                ->select('id', 'title', 'slug', 'image_sm', 'updated_at')
+                ->when(count($this->latestCategories), function ($query) {
+                    $query->whereHas('categories', function ($query) {
+                        $query->whereIn('blog_categories.id', $this->latestCategories);
+                    });
+                })
+                ->active()
+                ->latest()
+                ->limit($this->latestPosts)
+                ->get();
         }
 
         $this->recentComments = (int)$recentComments;
