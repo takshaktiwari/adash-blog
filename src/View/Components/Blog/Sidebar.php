@@ -28,7 +28,7 @@ class Sidebar extends Component
         if ($this->categories) {
             $this->categories = BlogCategory::query()
                 ->select('id', 'slug', 'name')
-                ->with('children')
+                ->with(['children' => fn($q) => $q->where('status', true)])
                 ->where('status', true)
                 ->parent()
                 ->limit($this->categories)
