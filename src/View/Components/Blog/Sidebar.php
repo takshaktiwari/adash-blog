@@ -22,7 +22,13 @@ class Sidebar extends Component
 
         $this->categories = (int)$categories;
         if ($this->categories) {
-            $this->categories = BlogCategory::select('id', 'slug', 'name')->limit($this->categories)->get();
+            $this->categories = BlogCategory::query()
+                ->select('id', 'slug', 'name')
+                ->with('children')
+                ->where('status', true)
+                ->parent()
+                ->limit($this->categories)
+                ->get();
         }
 
         $this->featuredPosts = (int)$featuredPosts;
