@@ -41,7 +41,7 @@ class BlogCategory extends Model
      */
     public function parentCategory(): BelongsTo
     {
-        return $this->belongsTo(BlogBlogCategory::class);
+        return $this->belongsTo(BlogBlogCategory::class, 'blog_category_id', 'id');
     }
 
     /**
