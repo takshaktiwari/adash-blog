@@ -53,7 +53,7 @@ class Sidebar extends Component
         $this->latestPosts = (int)$latestPosts;
         if ($this->latestPosts) {
             $this->latestPosts = BlogPost::query()
-                ->select('id', 'title', 'slug', 'image_sm', 'updated_at')
+                ->select('id', 'title', 'slug', 'image_sm', 'updated_at', 'created_at')
                 ->when(count($this->latestCategories), function ($query) {
                     $query->whereHas('categories', function ($query) {
                         $query->whereIn('blog_categories.id', $this->latestCategories);
