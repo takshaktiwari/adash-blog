@@ -114,11 +114,15 @@ trait BlogCategoryTrait
     public function destroy(BlogCategory $category)
     {
         $this->authorize('blog_categories_delete');
-        Storage::delete([
+        $images = [
             $category->image_sm,
             $category->image_md,
             $category->image_lg,
-        ]);
+        ];
+        $images = array_filter($images, fn ($i) => $i);
+        if (count($images)) {
+            Storage::delete($images);
+        }
 
         $category->delete();
         return redirect()->route('admin.blog.categories.index')->withSuccess('SUCCESS !! Category is successfully deleted');
