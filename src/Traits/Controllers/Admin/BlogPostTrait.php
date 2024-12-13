@@ -2,6 +2,7 @@
 
 namespace Takshak\Ablog\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Takshak\Ablog\Actions\BlogPostAction;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Takshak\Ablog\Models\Blog\BlogPost;
 
 trait BlogPostTrait
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $this->authorize('blog_posts_access');

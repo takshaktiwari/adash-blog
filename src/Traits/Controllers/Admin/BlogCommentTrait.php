@@ -2,12 +2,14 @@
 
 namespace Takshak\Ablog\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Takshak\Ablog\Models\Blog\BlogComment;
 
 trait BlogCommentTrait
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $this->authorize('blog_comments_access');

@@ -2,6 +2,7 @@
 
 namespace Takshak\Ablog\Traits\Controllers\Admin;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Takshak\Ablog\Actions\BlogCategoryAction;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Takshak\Ablog\Models\Blog\BlogCategory;
 
 trait BlogCategoryTrait
 {
+    use AuthorizesRequests;
+
     public function index(Request $request)
     {
         $this->authorize('blog_categories_access');
