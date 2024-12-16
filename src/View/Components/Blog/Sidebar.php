@@ -10,71 +10,70 @@ use Takshak\Ablog\Models\Blog\BlogPost;
 
 class Sidebar extends Component
 {
-    public $search = true;
-    public $categories = 8;
-    public $featuredPosts = 8;
-    public $latestPosts = 8;
-    public $recentComments = 4;
-    public $featuredCategories = [];
-    public $latestCategories = [];
-
-    public function __construct($search = true, $categories = 8, $featuredCategories = [], $featuredPosts = 8, $latestCategories = [], $latestPosts = 8, $recentComments = 4)
+    public function __construct(public $search = true, public $categories = 8, public $featuredCategories = [], public $featuredPosts = 8, public $latestCategories = [], public $latestPosts = 8, public $recentComments = 4, public $sectionCategories = [], public $sectionCategoriesPosts = 8)
     {
-        $this->search = $search;
-        $this->featuredCategories = $featuredCategories;
         $this->latestCategories = $latestCategories;
 
-        $this->categories = (int)$categories;
-        if ($this->categories) {
+        if ((int)$this->categories) {
             $this->categories = BlogCategory::query()
                 ->select('id', 'slug', 'name')
                 ->with(['children' => fn($q) => $q->where('status', true)])
                 ->where('status', true)
                 ->parent()
-                ->limit($this->categories)
+                ->limit((int)$this->categories)
                 ->get();
         }
 
-        $this->featuredPosts = (int)$featuredPosts;
-        if ($this->featuredPosts) {
-            $this->featuredPosts = BlogPost::query()
-                ->select('id', 'title', 'slug', 'image_sm', 'updated_at', 'created_at')
-                ->when(count($this->featuredCategories), function ($query) {
-                    $query->whereHas('categories', function ($query) {
-                        $query->whereIn('blog_categories.id', $this->featuredCategories);
-                    });
-                })
-                ->featured()
-                ->active()
-                ->limit($this->featuredPosts)
-                ->get();
-        }
-
-        $this->latestPosts = (int)$latestPosts;
-        if ($this->latestPosts) {
-            $this->latestPosts = BlogPost::query()
-                ->select('id', 'title', 'slug', 'image_sm', 'updated_at', 'created_at')
-                ->when(count($this->latestCategories), function ($query) {
-                    $query->whereHas('categories', function ($query) {
-                        $query->whereIn('blog_categories.id', $this->latestCategories);
-                    });
-                })
-                ->active()
-                ->latest()
-                ->limit($this->latestPosts)
-                ->get();
-        }
-
-        $this->recentComments = (int)$recentComments;
-        if ($this->recentComments) {
+        if ((int) $this->recentComments) {
             $this->recentComments = BlogComment::query()
                 ->select('id', 'blog_post_id', 'name', 'comment', 'created_at')
                 ->with('post:id,slug')
                 ->whereRelation('post', 'status', true)
                 ->latest()
-                ->limit($this->recentComments)
+                ->limit((int)$this->recentComments)
                 ->get();
         }
+
+        if ((int)$this->featuredPosts) {
+            $this->featuredPosts = $this->getPosts($this->featuredCategories, (int) $this->featuredPosts)->featured()->get();
+        }
+
+        if ((int) $this->latestPosts) {
+            $this->latestPosts = $this->getPosts($this->latestCategories, (int) $this->latestPosts)->get();
+        }
+
+        if (count($this->sectionCategories) && (int)$this->sectionCategoriesPosts) {
+            $this->sectionCategories = BlogCategory::query()
+                ->select('id', 'slug', 'name')
+                ->where(function ($query) {
+                    $query->whereIn('blog_categories.id', $this->sectionCategories);
+                    $query->orWhereIn('blog_categories.name', $this->sectionCategories);
+                    $query->orWhereIn('blog_categories.slug', $this->sectionCategories);
+                })
+                ->with(['blogPosts' => function ($query) {
+                    $query->select('blog_posts.id', 'blog_posts.title', 'blog_posts.slug', 'blog_posts.image_sm', 'blog_posts.updated_at', 'blog_posts.created_at');
+                    $query->active();
+                    $query->limit((int)$this->sectionCategoriesPosts);
+                }])
+                ->active()
+                ->get();
+        }
+    }
+
+    public function getPosts($categories = [], $limit = 8)
+    {
+        return BlogPost::query()
+            ->select('id', 'title', 'slug', 'image_sm', 'updated_at', 'created_at')
+            ->when(count($categories), function ($query) use ($categories) {
+                $query->whereHas('categories', function ($query) use ($categories) {
+                    $query->whereIn('blog_categories.id', $categories);
+                    $query->orWhereIn('blog_categories.name', $categories);
+                    $query->orWhereIn('blog_categories.slug', $categories);
+                });
+            })
+            ->active()
+            ->latest()
+            ->limit((int) $limit);
     }
 
     public function render()

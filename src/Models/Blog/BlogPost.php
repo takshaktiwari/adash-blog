@@ -58,10 +58,7 @@ class BlogPost extends Model
     {
         return Str::words(strip_tags($this->content), $length, ' ...');
     }
-    public function scopeActive(Builder $query)
-    {
-        return $query->where('status', true);
-    }
+
     public function scopeFeatured(Builder $query)
     {
         return $query->where('featured', true);

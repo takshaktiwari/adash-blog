@@ -1,6 +1,6 @@
 <x-app-layout>
-	<x-breadcrumb 
-		title="Blog Posts" 
+	<x-breadcrumb
+		title="Blog Posts"
 		:links="[
 			['text' => 'Blog Posts'],
 			['text' => 'List']
@@ -27,7 +27,7 @@
 
 							</div>
 						</div>
-					
+
 					@endif
 				</div>
 
@@ -36,12 +36,12 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<x-ablog-blog:sidebar />
+				<x-ablog-blog:sidebar :sectionCategories="['sanford-ondricka-and-bailey', 'heathcote-inc']" />
 			</div>
-		</div>	
+		</div>
 
 		<hr class="mt-5">
-		<h3 class="fw-bold">Latest Posts</h3>		
-		<x-ablog-blog:post-gallery type="latest" />	
+		<h3 class="fw-bold">Latest Posts</h3>
+		<x-ablog-blog:post-gallery type="latest" />
 	</div>
 </x-app-layout>

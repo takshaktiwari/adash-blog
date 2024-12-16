@@ -31,6 +31,32 @@
     </div>
 @endif
 
+@foreach ($sectionCategories as $sectionCategory)
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="m-0"><i class="fa-regular fa-file-lines"></i> {{ $sectionCategory->name }}</h5>
+        </div>
+        <div class="card-body">
+            @foreach ($sectionCategory->blogPosts as $post)
+                <div class="row mb-3">
+                    <div class="col-3 my-auto">
+                        <a href="{{ route('blog.posts.show', [$post]) }}">
+                            <img src="{{ $post->image_sm() }}" alt="Featured post image" class="rounded w-100">
+                        </a>
+                    </div>
+                    <div class="col-9 my-auto">
+                        <a href="{{ route('blog.posts.show', [$post]) }}"
+                            class="text-decoration-none lc-1">{{ $post->title }}</a>
+                        <p class="mb-0 text-secondary small">
+                            <span class="small">{{ $post->updated_at->format('D, d-M-Y H:i') }}</span>
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endforeach
+
 @if ($featuredPosts && $featuredPosts->count())
     <div class="card mb-4">
         <div class="card-header">

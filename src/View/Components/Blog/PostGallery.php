@@ -27,6 +27,8 @@ class PostGallery extends Component
                 ->when(count($this->categories), function ($query) {
                     $query->whereHas('categories', function ($query) {
                         $query->whereIn('blog_categories.id', $this->categories);
+                        $query->orWhereIn('blog_categories.name', $this->categories);
+                        $query->orWhereIn('blog_categories.slug', $this->categories);
                     });
                 });
 
