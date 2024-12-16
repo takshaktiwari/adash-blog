@@ -15,7 +15,8 @@ use Takshak\Adash\Traits\Models\CommonModelTrait;
 
 class BlogPost extends Model
 {
-    use HasFactory, CommonModelTrait;
+    use HasFactory;
+    use CommonModelTrait;
 
     protected $guarded = [];
 
@@ -57,6 +58,11 @@ class BlogPost extends Model
     public function excerpt($length = 40)
     {
         return Str::words(strip_tags($this->content), $length, ' ...');
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('status', true);
     }
 
     public function scopeFeatured(Builder $query)
