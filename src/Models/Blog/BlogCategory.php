@@ -63,4 +63,14 @@ class BlogCategory extends Model
     {
         return $query->whereNotNull('blog_category_id');
     }
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('status', true);
+    }
+
+    public function scopeFeatured(Builder $query)
+    {
+        return $query->where('featured', true);
+    }
 }
