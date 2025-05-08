@@ -11,6 +11,7 @@ use Takshak\Ablog\Models\Blog\BlogPost;
 use Database\Factories\Blog\BlogCategoryFactory;
 use Illuminate\Database\Eloquent\Model;
 use Takshak\Adash\Traits\Models\CommonModelTrait;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogCategory extends Model
 {
